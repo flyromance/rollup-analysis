@@ -1,5 +1,7 @@
 /**
  * https://github.com/Anidetrix/rollup-plugin-styles
+ * 
+ * 没有压缩功能
  **/
 const path = require('path')
 const { rollup } = require('rollup')

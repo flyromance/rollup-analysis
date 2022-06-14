@@ -1,5 +1,7 @@
 /**
  * https://github.com/egoist/rollup-plugin-postcss
+ *
+ * 内置压缩功能
  */
 const path = require('path')
 const del = require('del')
@@ -10,8 +12,6 @@ function resolve(v) {
   return path.join(__dirname, v)
 }
 
-// 为什么不用node-resolve插件不会报错，因为是相对路径！
-// TODO: 压缩css怎么弄
 async function build() {
   await del(resolve('output'))
 
@@ -19,6 +19,8 @@ async function build() {
     input: resolve('./index.js'),
     plugins: [
       postcss({
+        // autoprefixer px2rem px2viewport
+        plugins: [],
         // minimize: true, // default is false
         extract: true // default is false; toggle
       })

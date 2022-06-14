@@ -11,8 +11,8 @@
  * script     @手动安装 babel rollup-babel等
  * jsx        @手动安装 @vue/babel-preset-jsx
  * style      @手动安装 css-processor rollup-postcss等
- * 
- * @问题 在.vue文件中写 jsx 语法会报错
+ *
+ * @问题 在 .vue 文件中写 jsx 语法会报错
  **/
 
 const path = require('path')
@@ -51,6 +51,8 @@ async function build() {
   await bundle.write({
     file: resolve('./output/index.js')
   })
+
+  await bundle.close()
 }
 
 build()
