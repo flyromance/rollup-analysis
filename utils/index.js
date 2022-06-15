@@ -297,57 +297,6 @@ function isEqual(a, b) {
   return false
 }
 
-function makeChange(target, val) {
-  let parent
-  do {
-    target.__m.isChanged = true
-    target.__m.value = { ...target.__m.raw, [key]: val }
-    parent = target.__m.parent
-  } while (parent)
-}
-
-const traps = {
-  get(target, key, receiver) {
-    const a = Reflect.get(target, key, receiver)
-    if (!canRecursion(a)) {
-      return a
-    }
-    return makeProxy(a, target.__m)
-  },
-  set(target, key, val, receiver) {
-    const preVal = Reflect.get(target, key, receiver)
-    if (preVal === val) return
-
-    makeChange(target, val)
-  }
-}
-
-function makeProxy(obj, parent) {
-  const p = new Proxy(obj, traps)
-  Object.defineProperty(obj, '__p', {
-    value: p
-  })
-
-  Object.defineProperty(obj, '__m', {
-    value: {
-      parent,
-      raw: obj,
-      isChanged: false
-    }
-  })
-
-  return p
-}
-
-// { a: 1, b: { c: 1 }, c: { d: 0 } }
-// (p) => { p.a = 2 }
-// (p) => { p.b.c = 2 }
-function immer(obj, handler) {
-  const p = makeProxy(obj)
-  handler(p)
-  return obj.__m.value
-}
-
 module.exports = {
   series,
   parallel,
