@@ -7,7 +7,7 @@ function series() {
       function next(i) {
         if (i >= fns.length) {
           cb && cb(null, results)
-          resolve()
+          resolve(results)
           return
         }
         const fn = fns[i]
